@@ -23,6 +23,8 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
             AliensArray[i] = new Sprite2D(alienShip);
         }
 
+        PlayerShip = new Sprite2D(playerImage);
+
         // Creating the window for the application
         this.setTitle("Space Invaders!...(Kind of)");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -47,6 +49,7 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
             for(int i = 0; i < NumAliens; i++){
                 AliensArray[i].moveEnemy();
             }
+            PlayerShip.movePlayer();
             // calling repaint each iteration to redraw the objects
             repaint();
             // trying to get the thread to sleep for 20 milliseconds and catching an interrupted exception
@@ -60,31 +63,47 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
     }
 
     // 3 keyboard event handler functions
-    public void keyPressed(KeyEvent e){
-        System.out.println("Hello world");
-
+    public void keyTyped(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_D){
+            PlayerShip.setXSpeed(3);
+        }
+        if (e.getKeyCode() == KeyEvent.VK_A){
+            PlayerShip.setXSpeed(-3);
+        }
     }
-    public void KeyReleased(KeyEvent e){
-        System.out.println("Hello world");
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT){
+            PlayerShip.setXSpeed(3);
+        }
+        if (e.getKeyCode() == KeyEvent.VK_LEFT){
+            PlayerShip.setXSpeed(-3);
+        }
     }
-    public void KeyTyped(KeyEvent e){
-        System.out.println("Hello world");
+    @Override
+    public void keyReleased(KeyEvent e) {
+        PlayerShip.setXSpeed(0);
     }
 
     // applications paint method
     public void paint(Graphics g){
         // drawing a white rectangle the size of the screen to allow for window resizing without error
         Dimension Screen_Size = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        g.setColor(Color.WHITE);
+        g.setColor(Color.BLACK);
         g.fillRect(0, 0, Screen_Size.width, Screen_Size.height);
+
+        PlayerShip.setPosition(280, 560);
+
         // looping through all the game objects calling their paint() methods
         for(int i = 0; i < NumAliens; i++){
             AliensArray[i].paint(g);
         }
+        PlayerShip.paint(g);
     }
 
     // application entry point
     public static void main(String[] args){
+        InvadersApplication ia = new InvadersApplication();
 
     }
 }
