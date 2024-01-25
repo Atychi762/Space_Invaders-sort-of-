@@ -53,7 +53,6 @@ public class Sprite2D {
     public void paint(Graphics g){
         // drawing the square with the stored member data as parameters
         g.drawImage(myImage, (int)x,(int)y, null);
-
     }
 
 }

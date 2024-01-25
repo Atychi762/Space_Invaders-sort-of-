@@ -23,6 +23,7 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
             AliensArray[i] = new Sprite2D(alienShip);
         }
 
+        // instantiating the player ship
         PlayerShip = new Sprite2D(playerImage);
 
         // Creating the window for the application
@@ -34,6 +35,9 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
         int y = Screen_Size.height/2 - WindowSize.height/2;
         setBounds(x, y, WindowSize.width, WindowSize.height);
         setVisible(true);
+
+        // setting the players starting position
+        PlayerShip.setPosition(280, 560);
 
         // Creating a thread for the application
         Thread t = new Thread(this);
@@ -49,10 +53,11 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
             for(int i = 0; i < NumAliens; i++){
                 AliensArray[i].moveEnemy();
             }
+            // calling the players  move() method
             PlayerShip.movePlayer();
             // calling repaint each iteration to redraw the objects
             repaint();
-            // trying to get the thread to sleep for 20 milliseconds and catching an interrupted exception
+            // trying to get the thread to sleep for 20 milliseconds and catching the interrupted exception
             try{
                 Thread.sleep(20);
             } catch (InterruptedException e){
@@ -64,24 +69,31 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
 
     // 3 keyboard event handler functions
     public void keyTyped(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_D){
-            PlayerShip.setXSpeed(3);
+        // adding the player control using the arrow Keys
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT){
+            // if the right arrow is pressed set the player speed to 5
+            PlayerShip.setXSpeed(5);
         }
-        if (e.getKeyCode() == KeyEvent.VK_A){
-            PlayerShip.setXSpeed(-3);
+        if (e.getKeyCode() == KeyEvent.VK_LEFT){
+            //if the left arrow is pressed set the player speed to -5
+            PlayerShip.setXSpeed(-5);
         }
     }
     @Override
     public void keyPressed(KeyEvent e) {
+        // adding the player control using the arrow Keys
         if (e.getKeyCode() == KeyEvent.VK_RIGHT){
-            PlayerShip.setXSpeed(3);
+            // if the right arrow is pressed set the player speed to 5
+            PlayerShip.setXSpeed(5);
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT){
-            PlayerShip.setXSpeed(-3);
+            //if the left arrow is pressed set the player speed to -5
+            PlayerShip.setXSpeed(-5);
         }
     }
     @Override
     public void keyReleased(KeyEvent e) {
+        // if the 
         PlayerShip.setXSpeed(0);
     }
 
@@ -92,8 +104,6 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, Screen_Size.width, Screen_Size.height);
 
-        PlayerShip.setPosition(280, 560);
-
         // looping through all the game objects calling their paint() methods
         for(int i = 0; i < NumAliens; i++){
             AliensArray[i].paint(g);
@@ -103,7 +113,9 @@ public class InvadersApplication extends JFrame implements Runnable, KeyListener
 
     // application entry point
     public static void main(String[] args){
+        System.out.println("Hello world!");
         InvadersApplication ia = new InvadersApplication();
+        ia.addKeyListener(ia);
 
     }
 }
